@@ -8,6 +8,8 @@ from .serializers import StatusSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from rest_framework import generics
+
 
 # Create your views here.
 class StatusAPIView(APIView):
@@ -16,3 +18,13 @@ class StatusAPIView(APIView):
         status_list = Status.objects.all()
         status_serializer = StatusSerializer(status_list, many=True)
         return Response(status_serializer.data)
+
+
+class StatusListApiView(generics.ListAPIView):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
+
+
+class StatusCreateAPIView(generics.CreateAPIView):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
