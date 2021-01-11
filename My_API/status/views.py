@@ -7,25 +7,16 @@ from .serializers import StatusSerializer
 # rest_framework view instead of django builtin view
 from rest_framework.response import Response
 
-from rest_framework import generics, mixins
+from rest_framework import generics
 
 
-class StatusListCreateView(generics.ListAPIView):
+class StatusListCreateView(generics.ListCreateAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
 
 
 # to display a single post detail
-class StatusDetailAPIView(mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.RetrieveAPIView):
+class StatusDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     lookup_field = 'id'
-
-    def put(request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
